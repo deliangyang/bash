@@ -22,8 +22,8 @@ cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
 cp sapi/fpm/php-fpm /bin
 cp /usr/local/php/bin/* /bin/
 cd /usr/local/php/etc
-cat php-fpm.conf | sed 's/^user = no-body$/user = www-data' > php-fpm.conf
-cat php-fpm.conf | sed 's/^group = no-body$/group = www-data' > php-fpm.conf
+cat php-fpm.conf | sed 's/^user = no-body$/user = www-data/' > php-fpm.conf
+cat php-fpm.conf | sed 's/^group = no-body$/group = www-data/' > php-fpm.conf
 
 #/usr/local/php/bin/phpize
 #./configure --with-php-config=/usr/local/php/bin/php-config
