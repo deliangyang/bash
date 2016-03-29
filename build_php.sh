@@ -1,9 +1,10 @@
 #!/bin/bash
 mkdir -p /root/source;
 
-TEST_MACHINE='xxx@xxxx.com'
+TEST_MACHINE='root@xxx.com'
 BUILD_PATH='/usr/local/php'
 SOURCE_PATH='/root/kit'
+MY_SOURCE_PATH='/root/source/'
 
 function _color()
 {
@@ -31,22 +32,22 @@ function _color()
 }
 
 # 判断安装目录是否存在
-if [ ! -d $BUILD_PATH ]; then
-    mkdir -p $BUILD_PATH
-else
+if [ -d $BUILD_PATH ]; then
     BUILD_PATH='/usr/local/php5'
 fi
 
-if [ ! -d $BUILD_PATH ]; then
-    echo '安装目录已经存在, 请修改安装目录' | _color red
+if [ -d $BUILD_PATH ]; then
+    echo '[-] 安装目录已经存在, 请修改安装目录' | _color red
     exit
 fi
+mkdir -p $BUILD_PATH
 
 # 从测试机上面拉取源代码
-scp $TEST_MACHINE:$SOURCE_PATH/mongo-php-driver-legacy-master.zip /root/source
-scp $TEST_MACHINE:$SOURCE_PATH/redis-2.2.7.tgz /root/source
-scp $TEST_MACHINE:$SOURCE_PATH/php-5.6.19.tar.gz /root/source
+scp $TEST_MACHINE:$SOURCE_PATH/mongo-php-driver-legacy-master.zip $MY_SOURCE_PATH
+scp $TEST_MACHINE:$SOURCE_PATH/redis-2.2.7.tgz $MY_SOURCE_PATH
+scp $TEST_MACHINE:$SOURCE_PATH/php-5.6.19.tar.gz $MY_SOURCE_PATH
 
+cd $MY_SOURCE_PATH
 tar -zvxf redis-2.2.7.tgz
 tar -zvxf php-5.6.19.tar.gz
 unzip mongo-php-driver-legacy-master.zip
@@ -100,6 +101,7 @@ scp $TEST_MACHINE:/usr/local/php/lib/php.ini $BUILD_PATH/lib/php.ini
 /etc/init.d/php5-fpm stop >/dev/null 2>&1
 /etc/init.d/php5-fpm start
 
+echo '[+] 完成安装, php-fpm服务已启动' | _color green
 
 
 
